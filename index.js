@@ -2197,6 +2197,15 @@ QuickBooks.prototype.reportJournalReport = function(options, callback) {
   module.report(this, 'JournalReport', options, callback)
 }
 
+/**
+ * Allows the user to set customer headers that will be sent in the request
+ *
+ * @param  {object} headers - Map of key-value pairs that will be added as headers
+ */
+QuickBooks.prototype.setHeaders = function(headers) {
+  this.headers = headers;
+}
+
 module.request = function(context, verb, options, entity, callback) {
   var url = context.endpoint + context.realmId + options.url
   if (options.url === QuickBooks.RECONNECT_URL || options.url == QuickBooks.DISCONNECT_URL || options.url === QuickBooks.REVOKE_URL || options.url === QuickBooks.USER_INFO_URL) {
@@ -2205,7 +2214,7 @@ module.request = function(context, verb, options, entity, callback) {
   var opts = {
     url:     url,
     qs:      options.qs || {},
-    headers: options.headers || {},
+    headers: Object.assign(context.headers, options.headers || {}),
     json:    true
   }
 
