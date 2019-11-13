@@ -2214,7 +2214,7 @@ module.request = function(context, verb, options, entity, callback) {
   var opts = {
     url:     url,
     qs:      options.qs || {},
-    headers: Object.assign(context.headers, options.headers || {}),
+    headers: Object.assign(context.headers || {}, options.headers || {}),
     json:    true
   }
 
